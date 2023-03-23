@@ -368,6 +368,11 @@ public class ChatClientSdk {
             Util.debug(">>> messageArrived:", topic);
 
             String json = new String(message.getPayload());
+            try {
+                Util.debug(Util.toJson(new Gson().fromJson(json, MessagePayload.class)));
+            }
+            catch (Exception e) { Util.error(e.toString()); }
+
             context.sendBroadcast(new Intent("ChatClient").putExtra("payload", json));
         }
 
@@ -376,6 +381,22 @@ public class ChatClientSdk {
             Util.error(">>> deliveryComplete:", Arrays.toString(token.getTopics()));
         }
     };
+
+    public void updateTopic(GroupChannel channel, String action, String user) {
+        String topic = topicPrefix + "/" + appId + "/channel/" + channel.type + "/" + channel.channel_id;
+        topic += String.format("/%s/#", user);
+        String[] topicFilter = topic.split("\n");
+        Util.debug("[ChatClientSdk]", action, Arrays.toString(topicFilter));
+        try {
+            if (action.equals("subscribe"))
+                mqttClient.subscribe(topicFilter);
+            else
+                mqttClient.unsubscribe(topicFilter);
+        }
+        catch (Exception e) {
+            Util.error("[ChatClientSdk]", action, e.toString());
+        }
+    }
 
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -391,8 +412,6 @@ public class ChatClientSdk {
             }
             if (payload == null || payload.category == null) return;
 
-            Util.debug(Util.toJson(payload));
-
             switch (payload.category) {
                 case "user_update":
                     if (userEvent != null)
@@ -401,12 +420,22 @@ public class ChatClientSdk {
                 case "user_delete":
                     if (userEvent != null)
                         userEvent.onDelete(payload.user);
+                    if (ChatClient.user().isMe(payload.user)) {
+                        disconnectUser();
+                    }
                     break;
                 case "user_joined_channel":
+                    if (ChatClient.user().isMe(payload.user)) {
+                        updateTopic(payload.channel, "subscribe", "all");
+                    }
                     if (userEvent != null)
                         userEvent.onJoined(payload.channel, payload.user);
                     break;
                 case "user_become_manager":
+                    if (ChatClient.user().isMe(payload.user)) {
+                        updateTopic(payload.channel, "subscribe", "all");
+                        updateTopic(payload.channel, "subscribe", "manager");
+                    }
                     if (userEvent != null)
                         userEvent.onManager(payload.channel, payload.user);
                     break;
@@ -415,22 +444,38 @@ public class ChatClientSdk {
                         groupChannelEvent.onUpdated(payload.channel);
                     break;
                 case "group:channel_delete":
+                    updateTopic(payload.channel, "unsubscribe", "all");
+                    updateTopic(payload.channel, "unsubscribe", "manager");
                     if (groupChannelEvent != null)
                         groupChannelEvent.onDeleted(payload.channel);
                     break;
                 case "group:channel_join":
+                    if (ChatClient.user().isMe(payload.user)) {
+                        updateTopic(payload.channel, "subscribe", "all");
+                    }
                     if (groupChannelEvent != null)
                         groupChannelEvent.onJoined(payload.channel, payload.user);
                     break;
                 case "group:channel_leave":
+                    if (ChatClient.user().isMe(payload.user)) {
+                        updateTopic(payload.channel, "unsubscribe", "all");
+                        updateTopic(payload.channel, "unsubscribe", "manager");
+                    }
                     if (groupChannelEvent != null)
                         groupChannelEvent.onLeft(payload.channel, payload.user);
                     break;
                 case "group:channel_manager_create":
+                    if (ChatClient.user().isMe(payload.user)) {
+                        updateTopic(payload.channel, "subscribe", "all");
+                        updateTopic(payload.channel, "subscribe", "manager");
+                    }
                     if (groupChannelEvent != null)
                         groupChannelEvent.onManagerCreated(payload.channel, payload.user);
                     break;
                 case "group:channel_manager_delete":
+                    if (ChatClient.user().isMe(payload.user)) {
+                        updateTopic(payload.channel, "unsubscribe", "manager");
+                    }
                     if (groupChannelEvent != null)
                         groupChannelEvent.onManagerDeleted(payload.channel, payload.user);
                     break;
@@ -443,6 +488,10 @@ public class ChatClientSdk {
                         groupChannelEvent.onUnfrozen(payload.channel);
                     break;
                 case "group:channel_ban":
+                    if (ChatClient.user().isMe(payload.user)) {
+                        updateTopic(payload.channel, "unsubscribe", "all");
+                        updateTopic(payload.channel, "unsubscribe", "manager");
+                    }
                     if (groupChannelEvent != null)
                         groupChannelEvent.onUserBanned(payload.channel, payload.user, payload.banInfo);
                     break;

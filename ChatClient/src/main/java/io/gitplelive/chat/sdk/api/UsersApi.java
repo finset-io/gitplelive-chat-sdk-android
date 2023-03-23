@@ -26,7 +26,7 @@ public class UsersApi {
         return Arrays.stream(users).anyMatch(x -> x.getUserId().equals(me.getUserId()));
     }
 
-    public boolean equals(BaseUser user) {
+    public boolean isMe(BaseUser user) {
         return user.getUserId().equals(me.getUserId());
     }
 
