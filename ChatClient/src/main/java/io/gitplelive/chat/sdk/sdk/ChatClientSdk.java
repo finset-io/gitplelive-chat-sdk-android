@@ -365,9 +365,10 @@ public class ChatClientSdk {
 
         @Override
         public void messageArrived(String topic, MqttMessage message) {
-            Util.debug(">>> messageArrived:", topic);
-
             String json = new String(message.getPayload());
+
+            Util.debug(">>> messageArrived:", topic, json);
+
             context.sendBroadcast(new Intent("ChatClient").putExtra("payload", json));
         }
 
