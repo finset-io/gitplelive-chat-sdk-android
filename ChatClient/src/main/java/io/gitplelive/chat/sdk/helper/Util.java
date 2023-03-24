@@ -5,12 +5,17 @@
 
 package io.gitplelive.chat.sdk.helper;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.google.gson.GsonBuilder;
+
+import java.util.List;
 
 
 public class Util {
@@ -104,6 +109,37 @@ public class Util {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    public static boolean isActivityRunning(Context context, Class<? extends Activity> activityClass) {
+        if (context == null) {
+            io.gitplelive.chat.sdk.helper.Util.error("[Util] isActivityRunning: context is null)");
+            return false;
+        }
+        if (activityClass == null) {
+            io.gitplelive.chat.sdk.helper.Util.error("[Util] isActivityRunning: activityClass is null)");
+            return false;
+        }
+        ActivityManager activityManager = null;
+        try {
+            activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            if (activityManager == null) {
+                io.gitplelive.chat.sdk.helper.Util.error("[Util] isActivityRunning activityManager is null");
+                return false;
+            }
+        }
+        catch (Exception e) {
+            io.gitplelive.chat.sdk.helper.Util.error("[Util] isActivityRunning", e.toString());
+            return false;
+        }
+        List<ActivityManager.RunningTaskInfo> runningTasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
+        for (ActivityManager.RunningTaskInfo task : runningTasks) {
+            ComponentName componentName = task.baseActivity;
+            if (componentName != null && componentName.getClassName().equals(activityClass.getName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 } // Util.java

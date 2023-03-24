@@ -626,6 +626,9 @@ public class GroupChannelApi {
                                OnCallback<BaseMessage[]> listener) {
         if (ChatClient.getInstance().isNotConnected()) return;
 
+        limit = Math.max(1, limit);
+        limit = Math.min(15, limit);
+
         ChatClient.getInstance().groupChannelMessageSdk.get(channelId, messageId, mode, type, limit, content, (response, error) -> {
             if (listener == null) return;
 

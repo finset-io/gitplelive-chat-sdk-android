@@ -72,6 +72,11 @@ public class BaseMessage {
         return file.url;
     }
 
+    public String getMeta(String key) {
+        if (meta == null) return null;
+        return meta.get(key);
+    }
+
     public Date getDate() {
         return new Date(created_at);
     }

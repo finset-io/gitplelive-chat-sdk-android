@@ -60,8 +60,6 @@ public class ChatClientSdk {
     public GroupChannelMessageSdk groupChannelMessageSdk;
 
     private TokenInfo tokenInfo;
-    public String pushToken = null;
-
 
     private ConnectionEvent connectionEvent = new ConnectionEvent() {
         @Override public void onError(int errorType) {}
@@ -100,7 +98,7 @@ public class ChatClientSdk {
     public void logout() {
         usersSdk.deleteDeviceToken(mqttClient.getClientId(), (response, error) -> {
             Util.debug("[ChatClientSdk] logout", response, error);
-            new DeviceInfo().resetPushToken();
+            ChatMessagingService.resetToken();
         });
     }
 
@@ -116,9 +114,7 @@ public class ChatClientSdk {
         context.registerReceiver(broadcastReceiver, new IntentFilter("ChatClient"));
     }
 
-    public void connectUser(String userId, String token, String pushToken) {
-        this.pushToken = pushToken;
-
+    public void connectUser(String userId, String token) {
         if (!Util.checkNetwork(context)) {
             connectionEvent.onError(ErrorType.UNABLE_CONNECT_ERROR);
             return;
@@ -142,9 +138,7 @@ public class ChatClientSdk {
         });
     }
 
-    public void connectUser(String userId, String pushToken) {
-        this.pushToken = pushToken;
-
+    public void connectUser(String userId) {
         if (!Util.checkNetwork(context)) {
             connectionEvent.onError(ErrorType.UNABLE_CONNECT_ERROR);
             return;
@@ -273,7 +267,7 @@ public class ChatClientSdk {
                 connectionEvent.onConnected("failed");
             }
             else {
-                String pushToken = new DeviceInfo().getPushToken(this.pushToken);
+                String pushToken = ChatMessagingService.getToken();
                 if (pushToken != null) {
                     registerDeviceToken(pushToken);
                 }

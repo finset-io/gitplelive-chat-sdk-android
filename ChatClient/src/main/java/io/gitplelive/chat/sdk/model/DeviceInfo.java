@@ -14,7 +14,6 @@ import io.gitplelive.chat.sdk.helper.Util;
 public class DeviceInfo {
 
     private String deviceId;
-    private String pushToken;
 
     public DeviceInfo() {
         deviceId = Util.load("device_id");
@@ -22,24 +21,10 @@ public class DeviceInfo {
             deviceId = UUID.randomUUID().toString();
             Util.save("device_id", deviceId);
         }
-        pushToken = Util.load("push_token");
     }
 
     public String getId() {
         return deviceId;
-    }
-
-    public String getPushToken(String pushToken) {
-        assert pushToken != null;
-        if (pushToken.equals(this.pushToken)) return null;
-        this.pushToken = pushToken;
-        Util.save("push_token", pushToken);
-        return pushToken;
-    }
-
-    public void resetPushToken() {
-        Util.save("push_token", null);
-        pushToken = null;
     }
 
 } // DeviceInfo.java
