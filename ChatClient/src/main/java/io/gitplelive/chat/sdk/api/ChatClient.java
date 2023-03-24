@@ -7,12 +7,10 @@ package io.gitplelive.chat.sdk.api;
 
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 
 import io.gitplelive.chat.sdk.helper.Util;
 import io.gitplelive.chat.sdk.sdk.ChatClientSdk;
-import io.gitplelive.chat.sdk.service.ChatMessagingService;
 
 
 public class ChatClient extends ChatClientSdk {
@@ -27,14 +25,12 @@ public class ChatClient extends ChatClientSdk {
         super(context, host, appId);
     }
 
-    public static void init(Activity activity, String host, String appId, int resIcon, Class<? extends Activity> mainClass) {
+    public static void init(Context context, String host, String appId) {
         if (chatClient == null) {
-            chatClient = new ChatClient(activity, host, appId);
+            chatClient = new ChatClient(context, host, appId);
         }
 
-        Util.init(activity);
-        ChatMessagingService.init(activity, resIcon, mainClass);
-        ChatMessagingService.resetNotification();
+        Util.init(context);
     }
 
     public static ChatClient getInstance() {

@@ -9,7 +9,6 @@ package io.gitplelive.chat.sdk.model;
 import java.util.UUID;
 
 import io.gitplelive.chat.sdk.helper.Util;
-import io.gitplelive.chat.sdk.service.ChatMessagingService;
 
 
 public class DeviceInfo {
@@ -30,10 +29,10 @@ public class DeviceInfo {
         return deviceId;
     }
 
-    public String getPushToken() {
-        assert ChatMessagingService.pushToken != null;
-        if (ChatMessagingService.pushToken.equals(pushToken)) return null;
-        pushToken = ChatMessagingService.pushToken;
+    public String getPushToken(String pushToken) {
+        assert pushToken != null;
+        if (pushToken.equals(this.pushToken)) return null;
+        this.pushToken = pushToken;
         Util.save("push_token", pushToken);
         return pushToken;
     }

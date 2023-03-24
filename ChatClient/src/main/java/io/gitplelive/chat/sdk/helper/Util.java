@@ -5,18 +5,12 @@
 
 package io.gitplelive.chat.sdk.helper;
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.util.Log;
 
 import com.google.gson.GsonBuilder;
-
-import java.util.List;
 
 
 public class Util {
@@ -110,45 +104,6 @@ public class Util {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-    }
-
-    public static boolean isActivityRunning(Context context, Class<? extends Activity> activityClass) {
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        if (activityManager == null) {
-            return false;
-        }
-        List<ActivityManager.RunningTaskInfo> runningTasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
-        for (ActivityManager.RunningTaskInfo task : runningTasks) {
-            ComponentName componentName = task.baseActivity;
-            if (componentName.getClassName().equals(activityClass.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static String androidVersion() {
-        switch (Build.VERSION.SDK_INT) {
-            case 16 : return "Android 4.1, 4.1.1 (Jelly Bean)";
-            case 17 : return "Android 4.2, 4.2.2 (Jelly Bean)";
-            case 18 : return "Android 4.3 (Jelly Bean)";
-            case 19 : return "Android 4.4 (KitKat)";
-            case 20 : return "Android 4.4W (KitKat Wear)";
-            case 21 : return "Android 5.0 (Lollipop)";
-            case 22 : return "Android 5.1 (Lollipop)";
-            case 23 : return "Android 6.0 (Marshmallow)";
-            case 24 : return "Android 7.0 (Nougat)";
-            case 25 : return "Android 7.1.1 (Nougat)";
-            case 26 : return "Android 8.0 (Oreo)";
-            case 27 : return "Android 8.1 (Oreo)";
-            case 28 : return "Android 9.0 (Pie)";
-            case 29 : return "Android Q";
-            case 30 : return "Android 11";
-            case 31 : return "Android 12";
-            case 32 : return "Android 12L";
-            case 33 : return "Android 13";
-        }
-        return "Unknown version";
     }
 
 } // Util.java

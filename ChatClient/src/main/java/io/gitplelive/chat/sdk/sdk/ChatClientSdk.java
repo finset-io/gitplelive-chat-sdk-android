@@ -60,6 +60,7 @@ public class ChatClientSdk {
     public GroupChannelMessageSdk groupChannelMessageSdk;
 
     private TokenInfo tokenInfo;
+    public String pushToken = null;
 
 
     private ConnectionEvent connectionEvent = new ConnectionEvent() {
@@ -115,7 +116,9 @@ public class ChatClientSdk {
         context.registerReceiver(broadcastReceiver, new IntentFilter("ChatClient"));
     }
 
-    public void connectUser(String userId, String token) {
+    public void connectUser(String userId, String token, String pushToken) {
+        this.pushToken = pushToken;
+
         if (!Util.checkNetwork(context)) {
             connectionEvent.onError(ErrorType.UNABLE_CONNECT_ERROR);
             return;
@@ -139,7 +142,9 @@ public class ChatClientSdk {
         });
     }
 
-    public void connectUser(String userId) {
+    public void connectUser(String userId, String pushToken) {
+        this.pushToken = pushToken;
+
         if (!Util.checkNetwork(context)) {
             connectionEvent.onError(ErrorType.UNABLE_CONNECT_ERROR);
             return;
@@ -268,7 +273,7 @@ public class ChatClientSdk {
                 connectionEvent.onConnected("failed");
             }
             else {
-                String pushToken = new DeviceInfo().getPushToken();
+                String pushToken = new DeviceInfo().getPushToken(this.pushToken);
                 if (pushToken != null) {
                     registerDeviceToken(pushToken);
                 }
