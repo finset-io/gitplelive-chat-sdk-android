@@ -30,23 +30,23 @@ public class GroupChannel {
     public BaseMessage last_message;
 
     public int getUnread(String userId) {
-        return Util.getInt(unread.get(userId));
+        return unread == null ? 0 : Util.getInt(unread.get(userId));
     }
 
     public String getReadReceipt() {
-        return read_receipt.toString();
+        return read_receipt == null ? "" : read_receipt.toString();
     }
 
     public String getDeliveryReceipt() {
-        return delivery_receipt.toString();
+        return delivery_receipt == null ? "" : delivery_receipt.toString();
     }
 
     public long getReadReceipt(String userId) {
-        return Util.getLong(read_receipt.get(userId));
+        return read_receipt == null ? 0 : Util.getLong(read_receipt.get(userId));
     }
 
     public long getDeliveryReceipt(String userId) {
-        return Util.getLong(delivery_receipt.get(userId));
+        return delivery_receipt == null ? 0 : Util.getLong(delivery_receipt.get(userId));
     }
 
     public long getTimestamp() {

@@ -6,6 +6,7 @@
 package io.gitplelive.chat.sdk.service;
 
 
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -24,8 +25,10 @@ import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 
 import io.gitplelive.chat.sdk.helper.Util;
+import io.gitplelive.chat.sdk.model.MessagePayload;
 
 
 public class ChatMessagingService extends FirebaseMessagingService {
@@ -39,11 +42,13 @@ public class ChatMessagingService extends FirebaseMessagingService {
 
     private static Context context;
     private static int resIcon;
+    private static Class<? extends Activity> activityClass;
 
 
-    public static void init(Context activity, int resId) {
+    public static void init(Context activity, int resId, Class<? extends Activity> mainClass) {
         context = activity;
         resIcon = resId;
+        activityClass = mainClass;
 
         createNotificationChannel();
 
@@ -69,7 +74,7 @@ public class ChatMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        if (Util.isActivityRunning(context)) {
+        if (Util.isActivityRunning(context, activityClass)) {
             Util.error(">>> onMessageReceived");
             return;
         }
@@ -77,7 +82,17 @@ public class ChatMessagingService extends FirebaseMessagingService {
             String title = remoteMessage.getData().get("title");
             String body = remoteMessage.getData().get("body");
             String data = remoteMessage.getData().get("data");
-            Util.error(">>> onMessageReceived", title, body, data);
+            Util.debug(">>> onMessageReceived", title, body);
+            if (data != null) {
+                try {
+                    MessagePayload payload = new Gson().fromJson(data, MessagePayload.class);
+                    Util.debug(Util.toJson(payload));
+                }
+                catch (Exception e) {
+                    Util.debug(data);
+                    Util.error(e.toString());
+                }
+            }
 
             long current = System.currentTimeMillis();
             long elapsed = current - timestamp;
@@ -113,7 +128,7 @@ public class ChatMessagingService extends FirebaseMessagingService {
             getNotificationManager().createNotificationChannel(channel);
         }
 
-        Intent notificationIntent = new Intent(context, AppCompatActivity.class);
+        Intent notificationIntent = new Intent(context, activityClass);
         notificationIntent.putExtra("data", data);
 
         int flag = PendingIntent.FLAG_UPDATE_CURRENT;

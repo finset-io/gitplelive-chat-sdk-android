@@ -27,13 +27,13 @@ public class ChatClient extends ChatClientSdk {
         super(context, host, appId);
     }
 
-    public static void init(Activity activity, String host, String appId, int resIcon) {
+    public static void init(Activity activity, String host, String appId, int resIcon, Class<? extends Activity> mainClass) {
         if (chatClient == null) {
             chatClient = new ChatClient(activity, host, appId);
         }
 
         Util.init(activity);
-        ChatMessagingService.init(activity, resIcon);
+        ChatMessagingService.init(activity, resIcon, mainClass);
         ChatMessagingService.resetNotification();
     }
 

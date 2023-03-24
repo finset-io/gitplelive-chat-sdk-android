@@ -24,6 +24,7 @@ public class ResponseError {
         return new Gson().toJson(new ResponseError(message));
     }
 
+
     public static ResponseError fromJson(String json) {
         return new Gson().fromJson(json, ResponseError.class);
     }

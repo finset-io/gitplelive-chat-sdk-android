@@ -112,15 +112,6 @@ public class Util {
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
-    public static boolean isActivityRunning(Context context) {
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        if (activityManager == null) {
-            return false;
-        }
-        List<ActivityManager.RunningTaskInfo> runningTasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
-        return runningTasks.size() > 0;
-    }
-
     public static boolean isActivityRunning(Context context, Class<? extends Activity> activityClass) {
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (activityManager == null) {
@@ -128,7 +119,7 @@ public class Util {
         }
         List<ActivityManager.RunningTaskInfo> runningTasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
         for (ActivityManager.RunningTaskInfo task : runningTasks) {
-            ComponentName componentName = task.topActivity;
+            ComponentName componentName = task.baseActivity;
             if (componentName.getClassName().equals(activityClass.getName())) {
                 return true;
             }
