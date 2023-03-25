@@ -98,7 +98,7 @@ public class ChatClientSdk {
     public void logout() {
         usersSdk.deleteDeviceToken(mqttClient.getClientId(), (response, error) -> {
             Util.debug("[ChatClientSdk] logout", response, error);
-            ChatMessagingService.resetToken();
+            MessagingHelper.resetToken();
         });
     }
 
@@ -267,7 +267,7 @@ public class ChatClientSdk {
                 connectionEvent.onConnected("failed");
             }
             else {
-                String pushToken = ChatMessagingService.getToken();
+                String pushToken = MessagingHelper.getToken();
                 if (pushToken != null) {
                     registerDeviceToken(pushToken);
                 }
