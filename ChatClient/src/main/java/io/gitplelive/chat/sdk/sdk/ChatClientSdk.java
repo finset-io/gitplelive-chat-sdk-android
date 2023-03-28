@@ -119,12 +119,11 @@ public class ChatClientSdk {
             connectionEvent.onError(ErrorType.UNABLE_CONNECT_ERROR);
             return;
         }
-        this.userId = userId;
         if (mqttClient != null) {
             Util.error("[ChatClientSdk] connectUser", "Already connected");
-            connectionEvent.onError(ErrorType.UNKNOWN_ERROR);
             return;
         }
+        this.userId = userId;
         usersSdk = new UsersSdk(context, host, appId, userId);
 
         JWT.Body body = new JWT(token).getBody();
@@ -143,7 +142,6 @@ public class ChatClientSdk {
             connectionEvent.onError(ErrorType.UNABLE_CONNECT_ERROR);
             return;
         }
-
         if (mqttClient != null) {
             Util.error("[ChatClientSdk] connectUser", "Already connected");
             return;

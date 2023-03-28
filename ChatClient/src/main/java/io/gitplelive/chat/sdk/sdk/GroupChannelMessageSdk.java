@@ -82,7 +82,7 @@ public class GroupChannelMessageSdk {
         }
     }
 
-    public void get(String channelId, long messageId, String mode, String type, long limit, String content, OnResponse listener) {
+    public void get(String channelId, long messageId, String mode, String type, int limit, String content, OnResponse listener) {
         String url = url_group_channels + channelId + "/messages";
         String params = "";
         if (messageId > 0)

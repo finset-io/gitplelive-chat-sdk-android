@@ -7,17 +7,24 @@ package io.gitplelive.chat.sdk.sdk;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.gitplelive.chat.sdk.helper.HttpArrayRequest;
 import io.gitplelive.chat.sdk.helper.HttpDeleteRequest;
 import io.gitplelive.chat.sdk.helper.HttpRequest;
 import io.gitplelive.chat.sdk.interfaces.OnResponse;
+import io.gitplelive.chat.sdk.model.ChannelPage;
+import io.gitplelive.chat.sdk.model.GroupChannel;
 import io.gitplelive.chat.sdk.model.ResponseError;
 
 
@@ -112,7 +119,7 @@ public class GroupChannelSdk {
     }
 
     public void findAll(String next,
-                        long limit,
+                        int limit,
                         boolean showMembers,
                         boolean showManagers,
                         boolean showReadReceipt,
@@ -142,13 +149,38 @@ public class GroupChannelSdk {
     // 내부용: 4. mqtt topic 구독용 채널 조회
     //-----------------------------------------------------------------------
     public void findAllJoined(OnResponse listener) {
-        String url = url_group_channels + "joined/list?show_managers=true";
+        findAllJoined(new ArrayList<>(), null, listener);
+    }
 
-        new HttpRequest(context, url, headers, listener);
+    public void findAllJoined(List<GroupChannel> list, String next, OnResponse listener) {
+        String url = url_group_channels + "joined/list?show_managers=true&limit=30";
+        if (next != null) {
+            url += "&next=" + next;
+        }
+        new HttpRequest(context, url, headers, (response, error) -> {
+            if (error != null) {
+                listener.callback(null, error);
+                return;
+            }
+            try {
+                ChannelPage channelPage = new Gson().fromJson(response, ChannelPage.class);
+                list.addAll(Arrays.asList(channelPage.channels));
+                if (channelPage.next != null) {
+                    findAllJoined(list, channelPage.next, listener);
+                }
+                else {
+                    channelPage.channels = list.toArray(new GroupChannel[channelPage.channels.length]);
+                    listener.callback(new Gson().toJson(channelPage), null);
+                }
+            }
+            catch (Exception e) {
+                listener.callback(null, e.toString());
+            }
+        });
     }
 
     public void findAllJoined(String next,
-                              long limit,
+                              int limit,
                               boolean showMembers,
                               boolean showManagers,
                               boolean showReadReceipt,

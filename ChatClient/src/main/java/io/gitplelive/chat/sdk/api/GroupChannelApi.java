@@ -54,7 +54,7 @@ public class GroupChannelApi {
     //-----------------------------------------------------------------------
     // 그룹 채널 전체 목록: 1-2. getChannelList (filtered)
     //-----------------------------------------------------------------------
-    public void getChannelList( long limit,
+    public void getChannelList( int limit,
                                 boolean showMembers,
                                 boolean showManagers,
                                 boolean showReadReceipt,
@@ -99,7 +99,7 @@ public class GroupChannelApi {
     //-----------------------------------------------------------------------
     // 그룹 채널 참가한 목록: 2. getJoinedChannelList
     //-----------------------------------------------------------------------
-    public void getJoinedChannelList(   long limit,
+    public void getJoinedChannelList(   int limit,
                                         boolean showMembers,
                                         boolean showManagers,
                                         boolean showReadReceipt,
@@ -112,7 +112,7 @@ public class GroupChannelApi {
                                         OnCallback<ChannelPage> listener) {
         if (ChatClient.getInstance().isNotConnected()) return;
 
-        ChatClient.getInstance().groupChannelSdk.findAllJoined(  next,
+        ChatClient.getInstance().groupChannelSdk.findAllJoined( next,
                                                                 limit,
                                                                 showMembers,
                                                                 showManagers,
