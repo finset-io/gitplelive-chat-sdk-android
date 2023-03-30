@@ -32,6 +32,7 @@ import io.gitplelive.chat.sdk.interfaces.ConnectionEvent;
 import io.gitplelive.chat.sdk.interfaces.GroupChannelEvent;
 import io.gitplelive.chat.sdk.interfaces.OnResponse;
 import io.gitplelive.chat.sdk.interfaces.UserEvent;
+import io.gitplelive.chat.sdk.model.BaseUser;
 import io.gitplelive.chat.sdk.model.ChannelPage;
 import io.gitplelive.chat.sdk.model.DeviceInfo;
 import io.gitplelive.chat.sdk.model.ErrorType;
@@ -48,11 +49,11 @@ public class ChatClientSdk {
     private static final String topicPrefix = "mqtt/topic/gitple/live";
 
     private final Context context;
-    private final String host;
-    private final String appId;
+    private String host;
+    private String appId;
     private String userId;
     private MqttClient mqttClient;
-    private final String serverURI;
+    private String serverURI;
     private boolean connected = false;
 
     public UsersSdk usersSdk;
@@ -108,10 +109,15 @@ public class ChatClientSdk {
         this.context = context;
         this.host = host;
         this.appId = appId;
-
-        serverURI = String.format("wss://%s/ws", host);
+        this.serverURI = String.format("wss://%s/ws", host);
 
         context.registerReceiver(broadcastReceiver, new IntentFilter("ChatClient"));
+    }
+
+    public void reset(String host, String appId) {
+        this.host = host;
+        this.appId = appId;
+        this.serverURI = String.format("wss://%s/ws", host);
     }
 
     public void connectUser(String userId, String token) {
@@ -131,9 +137,25 @@ public class ChatClientSdk {
 
         usersSdk.setToken(token);
         usersSdk.refreshToken((response, error) -> {
-            tokenInfo = new Gson().fromJson(response, TokenInfo.class);
-            setToken(tokenInfo.token);
-            connect();
+            if (response != null) {
+                try {
+                    tokenInfo = new Gson().fromJson(response, TokenInfo.class);
+                    setToken(tokenInfo.token);
+                    connect();
+                } catch (Exception e) {
+                    Util.error(e.toString());
+                    connectionEvent.onError(ErrorType.UNKNOWN_ERROR);
+                }
+            }
+            else {
+                try {
+                    connectionEvent.onError(ResponseError.fromJson(error).code);
+                }
+                catch (Exception e) {
+                    Util.error(e.toString());
+                    connectionEvent.onError(ErrorType.UNKNOWN_ERROR);
+                }
+            }
         });
     }
 
@@ -228,8 +250,19 @@ public class ChatClientSdk {
         try {
             mqttClient.connect(options);
             Util.debug(">>> connect", mqttClient.getClientId());
-        } catch (MqttException e) {
-            Util.error("[ChatClient] connect", e.toString());
+        }
+        catch (MqttException e) {
+            Util.error("[ChatClientSdk] connect", e.toString());
+            try {
+                mqttClient.disconnect();
+            }
+            catch (MqttException e2) {
+                Util.debug("[ChatClientSdk] connect", e2.toString());
+            }
+            mqttClient = null;
+            tokenInfo = null;
+            connected = false;
+            connectionEvent.onError(ErrorType.INVALID_TOKEN);
         }
     }
 

@@ -37,6 +37,8 @@ public class BaseMessage {
     public long getId() { return message_id; }
 
     public BaseUser getUser() {
+        if (user != null) return user;
+        user = new BaseUser("N/A", "N/A");
         return user;
     }
 

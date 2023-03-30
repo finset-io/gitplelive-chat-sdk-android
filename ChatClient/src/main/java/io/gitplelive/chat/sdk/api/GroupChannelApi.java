@@ -680,7 +680,6 @@ public class GroupChannelApi {
         String url = ChatClient.getInstance().groupChannelMessageSdk.getUrl() + channelId + "/messages";
         Map<String, String> headers = ChatClient.getInstance().groupChannelMessageSdk.getHeaders();
 
-
         new UploadRequest(null, url, file, headers, (response, error) -> {
             if (response.isEmpty()) {
                 listener.callback(null, ErrorType.UNKNOWN_ERROR);
