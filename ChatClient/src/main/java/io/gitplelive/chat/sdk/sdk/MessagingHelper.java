@@ -10,7 +10,6 @@ import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -36,14 +35,7 @@ public class MessagingHelper {
     private static final String channelId = "GitLive Chat";
     private static final String channelName = "GitLive Chat";
 
-    public static MessagingHelper getInstance() {
-        return messagingHelper;
-    }
-
     public static void init(Context context) {
-        if (messagingHelper == null)
-            messagingHelper = new MessagingHelper();
-
         createNotificationChannel(context);
     }
 
@@ -74,7 +66,7 @@ public class MessagingHelper {
         return newToken;
     }
 
-    public void onMessageReceived(Context context, Map<String, String> receivedData, Class<? extends Activity> activityClass, int smallIcon) {
+    public static void onMessageReceived(Context context, Map<String, String> receivedData, Class<? extends Activity> activityClass, int smallIcon) {
         if (Util.isActivityRunning(context, activityClass)) {
             Util.error(">>> onMessageReceived", "Activity is running");
             return;
@@ -113,7 +105,7 @@ public class MessagingHelper {
     }
 
     @NonNull
-    private NotificationCompat.Builder getNotificationBuilder(Context context, String data, Class<? extends Activity> activityClass) {
+    private static NotificationCompat.Builder getNotificationBuilder(Context context, String data, Class<? extends Activity> activityClass) {
         NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT);
         channel.setShowBadge(true);
         channel.enableLights(true);

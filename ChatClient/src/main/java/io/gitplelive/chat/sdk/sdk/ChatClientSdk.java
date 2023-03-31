@@ -132,7 +132,12 @@ public class ChatClientSdk {
         this.userId = userId;
         usersSdk = new UsersSdk(context, host, appId, userId);
 
-        JWT.Body body = new JWT(token).getBody();
+        JWT jwt = new JWT(token);
+        JWT.Body body = jwt.getBody();
+        if (body == null) {
+            connectionEvent.onError(ErrorType.INVALID_TOKEN);
+            return;
+        }
         Util.debug(body.getUserId() + " " + body.isExpired());
 
         usersSdk.setToken(token);
@@ -142,7 +147,8 @@ public class ChatClientSdk {
                     tokenInfo = new Gson().fromJson(response, TokenInfo.class);
                     setToken(tokenInfo.token);
                     connect();
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     Util.error(e.toString());
                     connectionEvent.onError(ErrorType.UNKNOWN_ERROR);
                 }
