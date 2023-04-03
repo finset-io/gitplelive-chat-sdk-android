@@ -11,6 +11,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
 
 import com.google.gson.Gson;
 
@@ -131,6 +132,8 @@ public class ChatClientSdk {
         }
         this.userId = userId;
         usersSdk = new UsersSdk(context, host, appId, userId);
+        groupChannelSdk = new GroupChannelSdk(context, host, appId, userId);
+        groupChannelMessageSdk = new GroupChannelMessageSdk(context, host, appId, userId);
 
         JWT jwt = new JWT(token);
         JWT.Body body = jwt.getBody();
@@ -293,8 +296,34 @@ public class ChatClientSdk {
 
     private void setToken(String token) {
         usersSdk.setToken(token);
-        groupChannelSdk = new GroupChannelSdk(context, host, appId, userId, token);
-        groupChannelMessageSdk = new GroupChannelMessageSdk(context, host, appId, userId, token);
+        groupChannelSdk.setToken(token);
+        groupChannelMessageSdk.setToken(token);
+
+        new Handler().postDelayed(this::refreshToken, 2 * 60 * 60 * 1000);
+    }
+
+    private void refreshToken() {
+        usersSdk.refreshToken((response, error) -> {
+            if (response != null) {
+                try {
+                    tokenInfo = new Gson().fromJson(response, TokenInfo.class);
+                    setToken(tokenInfo.token);
+                }
+                catch (Exception e) {
+                    Util.error(e.toString());
+                    connectionEvent.onError(ErrorType.UNKNOWN_ERROR);
+                }
+            }
+            else {
+                try {
+                    connectionEvent.onError(ResponseError.fromJson(error).code);
+                }
+                catch (Exception e) {
+                    Util.error(e.toString());
+                    connectionEvent.onError(ErrorType.UNKNOWN_ERROR);
+                }
+            }
+        });
     }
 
     private void onConnect() {

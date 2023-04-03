@@ -34,15 +34,18 @@ public class GroupChannelMessageSdk {
         return url_group_channels;
     }
 
-    public GroupChannelMessageSdk(Context context, String host, String appId, String userId, String token) {
+    public GroupChannelMessageSdk(Context context, String host, String appId, String userId) {
         this.context = context;
         url_group_channels = "https://" + host + "/v1/sdk/group/channels/";
 
         headers.put("APP_ID", appId);
         headers.put("USER_ID", userId);
-        headers.put("Authorization", "Bearer " + token);
         headers.put("Accept", "application/json");
         headers.put("Content-Type", "application/json");
+    }
+
+    public void setToken(String token) {
+        headers.put("Authorization", "Bearer " + token);
     }
 
     public void create(String channelId, String type, String content, Map<String, String> meta, OnResponse listener) {

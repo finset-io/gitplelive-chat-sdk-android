@@ -34,15 +34,18 @@ public class GroupChannelSdk {
     private final String url_group_channels;
     private final Map<String, String> headers = new HashMap<>();
 
-    public GroupChannelSdk(Context context, String host, String appId, String userId, String token) {
+    public GroupChannelSdk(Context context, String host, String appId, String userId) {
         this.context = context;
         url_group_channels = "https://" + host + "/v1/sdk/group/channels/";
 
         headers.put("APP_ID", appId);
         headers.put("USER_ID", userId);
-        headers.put("Authorization", "Bearer " + token);
         headers.put("Accept", "application/json");
         headers.put("Content-Type", "application/json");
+    }
+
+    public void setToken(String token) {
+        headers.put("Authorization", "Bearer " + token);
     }
 
     public void ban(String channelId, String userId, int seconds, String reason, OnResponse listener) {
