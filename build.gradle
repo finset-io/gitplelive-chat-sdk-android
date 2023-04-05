@@ -9,20 +9,21 @@ buildscript {
     }
 }
 
-allprojects {
-    group='io.gitplelive.chat'
-}
-
 apply plugin: 'maven-publish'
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'io.gitplelive.chat'
-            artifactId = 'sdk'
-            version = "1.0.0"
-            pom {
-                description = 'GitpleLiveChat'
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = 'io.gitplelive.chat.sdk'
+                artifactId = 'ChatClient'
+                version = '1.0.0'
+            }
+
+            debug(MavenPublication) {
+                groupId = 'io.gitplelive.chat.sdk'
+                artifactId = 'ChatClient'
+                version = '1.0.0'
             }
         }
     }
