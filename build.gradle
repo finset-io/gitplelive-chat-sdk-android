@@ -5,6 +5,21 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.1'
+        classpath 'com.android.tools.build:gradle:7.4.2'
+    }
+}
+
+apply plugin: 'maven-publish'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.github.finset-io'
+            artifactId = 'gitplelive-chat-sdk-android'
+            version = "1.0.0"
+            pom {
+                description = 'GitpleLiveChat'
+            }
+        }
     }
 }
