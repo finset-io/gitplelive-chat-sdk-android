@@ -10,7 +10,7 @@ buildscript {
 }
 
 allprojects {
-    group='com.github.finset-io'
+    group='io.gitplelive.chat'
 }
 
 apply plugin: 'maven-publish'
@@ -18,8 +18,8 @@ apply plugin: 'maven-publish'
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = 'com.github.finset-io'
-            artifactId = 'gitplelive-chat-sdk-android'
+            groupId = 'io.gitplelive.chat'
+            artifactId = 'sdk'
             version = "1.0.0"
             pom {
                 description = 'GitpleLiveChat'
