@@ -6,30 +6,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.4.2'
-    }
-}
-
-apply plugin: 'maven-publish'
-group = 'com.github.finset-io'
-
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                from components.release
-
-                groupId = 'io.gitplelive.chat.sdk'
-                artifactId = 'ChatClient'
-                version = '1.0.0'
-            }
-
-            debug(MavenPublication) {
-                from components.debug
-                
-                groupId = 'io.gitplelive.chat.sdk'
-                artifactId = 'ChatClient-debug'
-                version = '1.0.0'
-            }
-        }
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
