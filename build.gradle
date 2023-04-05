@@ -9,6 +9,10 @@ buildscript {
     }
 }
 
+allprojects {
+    group='com.github.finset-io'
+}
+
 apply plugin: 'maven-publish'
 
 publishing {
