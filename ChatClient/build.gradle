@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    namespace 'io.gitplelive.chat.sdk'
+    namespace 'io.gitplelive.chat'
     compileSdk 33
 
     defaultConfig {
