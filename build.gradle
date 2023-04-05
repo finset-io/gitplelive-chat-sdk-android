@@ -16,14 +16,18 @@ afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
+                from components.release
+
                 groupId = 'io.gitplelive.chat.sdk'
                 artifactId = 'ChatClient'
                 version = '1.0.0'
             }
 
             debug(MavenPublication) {
+                from components.debug
+                
                 groupId = 'io.gitplelive.chat.sdk'
-                artifactId = 'ChatClient'
+                artifactId = 'ChatClient-debug'
                 version = '1.0.0'
             }
         }
