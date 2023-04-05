@@ -10,6 +10,7 @@ buildscript {
 }
 
 apply plugin: 'maven-publish'
+group = 'com.github.finset-io'
 
 afterEvaluate {
     publishing {
