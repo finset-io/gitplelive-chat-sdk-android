@@ -1,5 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
 
 android {
     namespace 'io.gitplelive.chat.sdk'
@@ -8,8 +10,9 @@ android {
     defaultConfig {
         minSdk 26
         targetSdk 33
-        versionCode 1
-        versionName "1.0.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -24,24 +27,21 @@ android {
     }
 }
 
-group = 'com.github.finset-io'
-
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
                 from components.release
-
                 groupId = 'io.gitplelive.chat.sdk'
                 artifactId = 'ChatClient'
                 version = '1.0.0'
             }
 
             debug(MavenPublication) {
+                // Applies the component for the debug build variant.
                 from components.debug
-
                 groupId = 'io.gitplelive.chat.sdk'
-                artifactId = 'ChatClient-debug'
+                artifactId = 'ChatClient'
                 version = '1.0.0'
             }
         }
