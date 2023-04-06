@@ -1,6 +1,6 @@
 ﻿# gitplelive-chat-sdk-android
 
-### GitpleLive Android SDK 1.0.0
+### GitpleLive Android SDK 1.0.1
 
 [![](https://jitpack.io/v/finset-io/gitplelive-chat-sdk-android.svg)](https://jitpack.io/#finset-io/gitplelive-chat-sdk-android)
 
