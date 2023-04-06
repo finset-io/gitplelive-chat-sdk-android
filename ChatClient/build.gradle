@@ -33,7 +33,7 @@ afterEvaluate {
             release(MavenPublication) {
                 from components.release
                 groupId = 'io.gitplelive.chat.sdk'
-                artifactId = 'ChatClient'
+                artifactId = 'GitpleLiveChat'
                 version = '1.0.0'
             }
 
@@ -41,7 +41,7 @@ afterEvaluate {
                 // Applies the component for the debug build variant.
                 from components.debug
                 groupId = 'io.gitplelive.chat.sdk'
-                artifactId = 'ChatClient'
+                artifactId = 'GitpleLiveChat'
                 version = '1.0.0'
             }
         }
