@@ -8,9 +8,9 @@
 
 - 사용 환경: Android 8 (SDK 26) 이상
 
-- 개발 환경: JDK 11.0.15 이상, Gradle 7.4.2 이상
+- 개발 환경: JDK 11.0.15 이상, Gradle 7.4.2 이상   
 
-      
+
 ## 라이브러리 설치 및 사용 방법
 
 - build.gradle(Module:app) 파일에 마지막 라인 추가
@@ -76,9 +76,9 @@
 
 ### 그룹 채널 이벤트 수신 설정: 8. setGroupChannelEvent
     public void setGroupChannelEvent(GroupChannelEvent groupChannelEvent)
-- 그룹 채널 이벤트 인터페이스를 연결합니다.
+- 그룹 채널 이벤트 인터페이스를 연결합니다.   
 
-   
+
 ## 사용자 SDK
 
 - Singleton Access object: ChatClient.user()
@@ -99,9 +99,9 @@
 
 ### 메타 데이터 삭제: 4. deleteMeta
     public void deleteMeta(String[] keys, OnCallback<BaseUser> listener)
-- 사용자 자신의 메타 데이터를 삭제할 수 있습니다.
+- 사용자 자신의 메타 데이터를 삭제할 수 있습니다.   
 
-   
+
 ## 그룹 채널  SDK
 
 - Singleton Access object: ChatClient.groupChannel()
@@ -239,9 +239,9 @@
 
 ### 중재(금지 목록 조회): 22. getBannedList
     public void getBannedList(String channelId, OnCallback<BanInfo[]> listener)
-- 해당 채널의 사용자 금지 목록을 조회 할 수 있습니다. 조회 정렬 기준은 금지 시작일 내림차순입니다.
+- 해당 채널의 사용자 금지 목록을 조회 할 수 있습니다. 조회 정렬 기준은 금지 시작일 내림차순입니다.   
 
-   
+
 ## 그룹 채널 메시지 SDK
 
 - Singleton Access object: ChatClient.groupChannel()
@@ -279,9 +279,9 @@
 - 
 ### 메타 데이터 삭제: 5. deleteMessageMeta
     public void deleteMessageMeta(String channelId, long messageId, String[] keys, OnCallback<BaseMessage> listener)
-- 사용자 자신이 전송한 메시지의 메타 데이터를 삭제할 수 있습니다.
+- 사용자 자신이 전송한 메시지의 메타 데이터를 삭제할 수 있습니다.   
 
-   
+
 ## 연결 이벤트 인터페이스
 
     public interface ConnectionEvent {
