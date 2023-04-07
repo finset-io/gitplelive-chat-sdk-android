@@ -4,11 +4,15 @@
 
 [![](https://jitpack.io/v/finset-io/gitplelive-chat-sdk-android.svg)](https://jitpack.io/#finset-io/gitplelive-chat-sdk-android)
 
-## 라이브러리 설치 및 사용 방법
+## 최소 사양
 
 - 사용 환경: Android 8 (SDK 26) 이상
-- 
+
 - 개발 환경: JDK 11.0.15 이상, Gradle 7.4.2 이상
+
+   
+## 라이브러리 설치 및 사용 방법
+
 
 - build.gradle(Module:app) 파일에 마지막 라인 추가
 
