@@ -1,10 +1,14 @@
 ﻿# gitplelive-chat-sdk-android
 
-### GitpleLive Android SDK 1.0.1
+### GitpleLive Android SDK 1.0.2
 
 [![](https://jitpack.io/v/finset-io/gitplelive-chat-sdk-android.svg)](https://jitpack.io/#finset-io/gitplelive-chat-sdk-android)
 
 ## 라이브러리 설치 및 사용 방법
+
+- 사용 환경: Android 8 (SDK 26) 이상
+- 
+- 개발 환경: JDK 11.0.15 이상, Gradle 7.4.2 이상
 
 - build.gradle(Module:app) 파일에 마지막 라인 추가
 
@@ -24,7 +28,7 @@
             }
         }
 
-
+   
 ## ChatClient SDK
 
 - Singleton Access object: ChatClient.getInstance()
@@ -71,8 +75,7 @@
     public void setGroupChannelEvent(GroupChannelEvent groupChannelEvent)
 - 그룹 채널 이벤트 인터페이스를 연결합니다.
 
-
-
+   
 ## 사용자 SDK
 
 - Singleton Access object: ChatClient.user()
@@ -95,7 +98,7 @@
     public void deleteMeta(String[] keys, OnCallback<BaseUser> listener)
 - 사용자 자신의 메타 데이터를 삭제할 수 있습니다.
 
-
+   
 ## 그룹 채널  SDK
 
 - Singleton Access object: ChatClient.groupChannel()
@@ -235,7 +238,7 @@
     public void getBannedList(String channelId, OnCallback<BanInfo[]> listener)
 - 해당 채널의 사용자 금지 목록을 조회 할 수 있습니다. 조회 정렬 기준은 금지 시작일 내림차순입니다.
 
-
+   
 ## 그룹 채널 메시지 SDK
 
 - Singleton Access object: ChatClient.groupChannel()
@@ -275,7 +278,7 @@
     public void deleteMessageMeta(String channelId, long messageId, String[] keys, OnCallback<BaseMessage> listener)
 - 사용자 자신이 전송한 메시지의 메타 데이터를 삭제할 수 있습니다.
 
-
+   
 ## 연결 이벤트 인터페이스
 
     public interface ConnectionEvent {
@@ -292,6 +295,7 @@
           void onDisconnected(String status);
     }
 
+   
 ## 사용자 이벤트 인터페이스
 
     public interface UserEvent {
@@ -308,6 +312,7 @@
         void onManager(GroupChannel channel, BaseUser user);
     }
 
+   
 ## 그룹 채널 이벤트 인터페이스
 
     public interface GroupChannelEvent {
@@ -357,6 +362,7 @@
         void onMessageDelivered(GroupChannel channel);
     }
 
+   
 ## 에러 타입 클래스
 
     public class ErrorType {

@@ -135,6 +135,11 @@ public class ChatClientSdk {
         groupChannelSdk = new GroupChannelSdk(context, host, appId, userId);
         groupChannelMessageSdk = new GroupChannelMessageSdk(context, host, appId, userId);
 
+        if (token == null) {
+            connect();
+            return;
+        }
+
         JWT jwt = new JWT(token);
         JWT.Body body = jwt.getBody();
         if (body == null) {
@@ -169,18 +174,7 @@ public class ChatClientSdk {
     }
 
     public void connectUser(String userId) {
-        if (!Util.checkNetwork(context)) {
-            connectionEvent.onError(ErrorType.UNABLE_CONNECT_ERROR);
-            return;
-        }
-        if (mqttClient != null) {
-            Util.error("[ChatClientSdk] connectUser", "Already connected");
-            return;
-        }
-        this.userId = userId;
-        usersSdk = new UsersSdk(context, host, appId, userId);
-
-        connect();
+        connectUser(userId, null);
     }
 
     public void disconnectUser() {
