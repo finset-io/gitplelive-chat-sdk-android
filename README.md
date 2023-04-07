@@ -17,7 +17,7 @@
 
         dependencies {
             ...  
-            implementation 'com.github.finset-io:gitplelive-chat-sdk-android:1.0.1'
+            implementation 'com.github.finset-io:gitplelive-chat-sdk-android:1.0.2'
         }
 
 - settings.gradle 파일에 마지막 라인 추가
