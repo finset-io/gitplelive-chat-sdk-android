@@ -34,9 +34,9 @@ public class UsersApi {
     // 사용자 조회: 1. me
     //-----------------------------------------------------------------------
     public void me(OnCallback<BaseUser> listener) {
-        if (ChatClient.getInstance().isNotConnected()) return;
+        if (GitpleLiveChat.getInstance().isNotConnected()) return;
 
-        ChatClient.getInstance().usersSdk.find((response, error) -> {
+        GitpleLiveChat.getInstance().usersSdk.find((response, error) -> {
             if (listener == null) return;
 
             if (error != null) {
@@ -58,9 +58,9 @@ public class UsersApi {
     // 사용자 수정: 2. updateUser
     //-----------------------------------------------------------------------
     public void updateUser(String name, String profile, OnCallback<BaseUser> listener) {
-        if (ChatClient.getInstance().isNotConnected()) return;
+        if (GitpleLiveChat.getInstance().isNotConnected()) return;
 
-        ChatClient.getInstance().usersSdk.update(name, profile, (response, error) -> {
+        GitpleLiveChat.getInstance().usersSdk.update(name, profile, (response, error) -> {
             if (listener == null) return;
 
             if (error != null) {
@@ -82,9 +82,9 @@ public class UsersApi {
     // 사용자 메타 데이터 수정: 3. updateMeta
     //-----------------------------------------------------------------------
     public void updateMeta(Map<String, String> meta, OnCallback<BaseUser> listener) {
-        if (ChatClient.getInstance().isNotConnected()) return;
+        if (GitpleLiveChat.getInstance().isNotConnected()) return;
 
-        ChatClient.getInstance().usersSdk.updateMeta(meta, (response, error) -> {
+        GitpleLiveChat.getInstance().usersSdk.updateMeta(meta, (response, error) -> {
             if (listener == null) return;
 
             if (error != null) {
@@ -106,9 +106,9 @@ public class UsersApi {
     // 사용자 메타 데이터 삭제: 4. deleteMeta
     //-----------------------------------------------------------------------
     public void deleteMeta(String[] keys, OnCallback<BaseUser> listener) {
-        if (ChatClient.getInstance().isNotConnected()) return;
+        if (GitpleLiveChat.getInstance().isNotConnected()) return;
 
-        ChatClient.getInstance().usersSdk.deleteMeta(keys, (response, error) -> {
+        GitpleLiveChat.getInstance().usersSdk.deleteMeta(keys, (response, error) -> {
             if (listener == null) return;
 
             if (error != null) {

@@ -26,14 +26,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import io.gitplelive.chat.sdk.api.ChatClient;
+import io.gitplelive.chat.sdk.api.GitpleLiveChat;
 import io.gitplelive.chat.sdk.helper.HttpRequest;
 import io.gitplelive.chat.sdk.helper.Util;
 import io.gitplelive.chat.sdk.interfaces.ConnectionEvent;
 import io.gitplelive.chat.sdk.interfaces.GroupChannelEvent;
 import io.gitplelive.chat.sdk.interfaces.OnResponse;
 import io.gitplelive.chat.sdk.interfaces.UserEvent;
-import io.gitplelive.chat.sdk.model.BaseUser;
 import io.gitplelive.chat.sdk.model.ChannelPage;
 import io.gitplelive.chat.sdk.model.DeviceInfo;
 import io.gitplelive.chat.sdk.model.ErrorType;
@@ -321,7 +320,7 @@ public class ChatClientSdk {
     }
 
     private void onConnect() {
-        ChatClient.user().me((user, errorType) -> {
+        GitpleLiveChat.user().me((user, errorType) -> {
             if (errorType > 0) {
                 Util.error(ErrorType.message(errorType));
                 connectionEvent.onConnected("failed");
@@ -479,19 +478,19 @@ public class ChatClientSdk {
                 case "user_delete":
                     if (userEvent != null)
                         userEvent.onDelete(payload.user);
-                    if (ChatClient.user().isMe(payload.user)) {
+                    if (GitpleLiveChat.user().isMe(payload.user)) {
                         disconnectUser();
                     }
                     break;
                 case "user_joined_channel":
-                    if (ChatClient.user().isMe(payload.user)) {
+                    if (GitpleLiveChat.user().isMe(payload.user)) {
                         updateTopic(payload.channel, "subscribe", "all");
                     }
                     if (userEvent != null)
                         userEvent.onJoined(payload.channel, payload.user);
                     break;
                 case "user_become_manager":
-                    if (ChatClient.user().isMe(payload.user)) {
+                    if (GitpleLiveChat.user().isMe(payload.user)) {
                         updateTopic(payload.channel, "subscribe", "all");
                         updateTopic(payload.channel, "subscribe", "manager");
                     }
@@ -509,14 +508,14 @@ public class ChatClientSdk {
                         groupChannelEvent.onDeleted(payload.channel);
                     break;
                 case "group:channel_join":
-                    if (ChatClient.user().isMe(payload.user)) {
+                    if (GitpleLiveChat.user().isMe(payload.user)) {
                         updateTopic(payload.channel, "subscribe", "all");
                     }
                     if (groupChannelEvent != null)
                         groupChannelEvent.onJoined(payload.channel, payload.user);
                     break;
                 case "group:channel_leave":
-                    if (ChatClient.user().isMe(payload.user)) {
+                    if (GitpleLiveChat.user().isMe(payload.user)) {
                         updateTopic(payload.channel, "unsubscribe", "all");
                         updateTopic(payload.channel, "unsubscribe", "manager");
                     }
@@ -524,7 +523,7 @@ public class ChatClientSdk {
                         groupChannelEvent.onLeft(payload.channel, payload.user);
                     break;
                 case "group:channel_manager_create":
-                    if (ChatClient.user().isMe(payload.user)) {
+                    if (GitpleLiveChat.user().isMe(payload.user)) {
                         updateTopic(payload.channel, "subscribe", "all");
                         updateTopic(payload.channel, "subscribe", "manager");
                     }
@@ -532,7 +531,7 @@ public class ChatClientSdk {
                         groupChannelEvent.onManagerCreated(payload.channel, payload.user);
                     break;
                 case "group:channel_manager_delete":
-                    if (ChatClient.user().isMe(payload.user)) {
+                    if (GitpleLiveChat.user().isMe(payload.user)) {
                         updateTopic(payload.channel, "unsubscribe", "manager");
                     }
                     if (groupChannelEvent != null)
@@ -547,7 +546,7 @@ public class ChatClientSdk {
                         groupChannelEvent.onUnfrozen(payload.channel);
                     break;
                 case "group:channel_ban":
-                    if (ChatClient.user().isMe(payload.user)) {
+                    if (GitpleLiveChat.user().isMe(payload.user)) {
                         updateTopic(payload.channel, "unsubscribe", "all");
                         updateTopic(payload.channel, "unsubscribe", "manager");
                     }

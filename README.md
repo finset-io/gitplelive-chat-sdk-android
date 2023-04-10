@@ -1,6 +1,6 @@
 ﻿# gitplelive-chat-sdk-android
 
-### GitpleLive Android SDK 1.0.2
+### GitpleLiveChat for Android 1.0.3
 
 [![](https://jitpack.io/v/finset-io/gitplelive-chat-sdk-android.svg)](https://jitpack.io/#finset-io/gitplelive-chat-sdk-android)
 
@@ -34,9 +34,9 @@
    
 ## ChatClient SDK
 
-- Singleton Access object: ChatClient.getInstance()
+- Singleton Access object: GitpleLiveChat.getInstance()
 
-        ChatClient.getInstance().init(...);
+        GitpleLiveChat.getInstance().init(...);
 
 ### 초기화: 1-1. init
     public static void init(Context context, String host, String appId)
@@ -81,9 +81,9 @@
 
 ## 사용자 SDK
 
-- Singleton Access object: ChatClient.user()
+- Singleton Access object: GitpleLiveChat.user()
 
-        ChatClient.user().me((user, errorType) -> { ... });
+        GitpleLiveChat.user().me((user, errorType) -> { ... });
 
 ### 조회: 1. me
     public void me(OnCallback<BaseUser> listener)
@@ -104,9 +104,9 @@
 
 ## 그룹 채널  SDK
 
-- Singleton Access object: ChatClient.groupChannel()
+- Singleton Access object: GitpleLiveChat.groupChannel()
 
-        ChatClient.groupChannel().getChannelList((page, errorType) -> { ... });
+        GitpleLiveChat.groupChannel().getChannelList((page, errorType) -> { ... });
 
 ### 전체 목록: 1-1. getChannelList
     public void getChannelList(OnCallback<ChannelPage> listener)
@@ -244,9 +244,9 @@
 
 ## 그룹 채널 메시지 SDK
 
-- Singleton Access object: ChatClient.groupChannel()
+- Singleton Access object: GitpleLiveChat.groupChannel()
 
-        ChatClient.groupChannel().getMessageList(..., (message, errorType) -> { ... });
+        GitpleLiveChat.groupChannel().getMessageList(..., (message, errorType) -> { ... });
 
 ### 메시지 목록 조회: 1. getMessageList
     public void getMessageList(String channelId,

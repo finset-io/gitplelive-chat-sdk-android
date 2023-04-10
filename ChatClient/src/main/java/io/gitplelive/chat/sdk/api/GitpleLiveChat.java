@@ -13,29 +13,29 @@ import io.gitplelive.chat.sdk.helper.Util;
 import io.gitplelive.chat.sdk.sdk.ChatClientSdk;
 
 
-public class ChatClient extends ChatClientSdk {
+public class GitpleLiveChat extends ChatClientSdk {
 
     @SuppressLint("StaticFieldLeak")
-    private static ChatClient chatClient;
+    private static GitpleLiveChat gitpleLiveChat;
 
     private static UsersApi usersApi;
     private static GroupChannelApi groupChannelApi;
 
-    public ChatClient(Context context, String host, String appId) {
+    public GitpleLiveChat(Context context, String host, String appId) {
         super(context, host, appId);
     }
 
     public static void init(Context context, String host, String appId) {
-        if (chatClient == null) {
-            chatClient = new ChatClient(context, host, appId);
+        if (gitpleLiveChat == null) {
+            gitpleLiveChat = new GitpleLiveChat(context, host, appId);
         }
 
         Util.init(context);
     }
 
-    public static ChatClient getInstance() {
-        assert chatClient != null;
-        return chatClient;
+    public static GitpleLiveChat getInstance() {
+        assert gitpleLiveChat != null;
+        return gitpleLiveChat;
     }
 
     public static UsersApi user() {
