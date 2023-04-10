@@ -31,12 +31,16 @@
             }
         }
 
+- 초기화
+
+      GitpleLiveChat.init("guest.gitplelive.io", "gitple");
+
    
 ## ChatClient SDK
 
 - Singleton Access object: GitpleLiveChat.getInstance()
 
-        GitpleLiveChat.getInstance().init(...);
+        GitpleLiveChat.getInstance().connectUser(...);
 
 ### 초기화: 1-1. init
     public static void init(Context context, String host, String appId)
