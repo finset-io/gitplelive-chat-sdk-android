@@ -42,12 +42,12 @@
 
         GitpleLiveChat.getInstance().connectUser(...);
 
-### 초기화: 1-1. init
+### 초기화: 1. init
     public static void init(Context context, String host, String appId)
  - MainActivity 에서 SDK 초기화를 진행합니다.
 
 ### 초기화: 1-2. reset
-    public static void reset(String host, String appId)
+    public void reset(String host, String appId)
 - 앱 실행 중에 host 와 appId 변경할 필요가 있을 경우 사용합니다.
 
 ### 연결: 2-1. connectUser
