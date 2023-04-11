@@ -124,7 +124,7 @@
                                 boolean showUnread,
                                 boolean showLastMessage,
                                 String name,
-                                String include_members,
+                                String includeMembers,
                                 String next,
                                 OnCallback<ChannelPage> listener)
 - 그룹 채널 목록을 페이징 조회 할 수 있습니다. 조회 정렬 기준은 생성일 내림차순입니다. 다음 페이지가 있을 경우 응답 데이터에 'next' 정보가 전달됩니다. 응답에서 받은 'next' 값을 사용하여 다음 목록을 조회 할 수 있습니다. 다음 페이지 조회 시, 'next' 값만 전달하면 됩니다.
@@ -138,7 +138,7 @@
                                         boolean showUnread,
                                         boolean showLastMessage,
                                         String name,
-                                        String include_members,
+                                        String includeMembers,
                                         String next,
                                         OnCallback<ChannelPage> listener)
 - 사용자가 참가한 그룹 채널 목록을 페이징 조회 할 수 있습니다. 조회 정렬 기준은 생성일 내림차순입니다. 다음 페이지가 있을 경우 응답 데이터에 'next' 정보가 전달됩니다. 응답에서 받은 'next' 값을 사용하여 다음 목록을 조회 할 수 있습니다. 다음 페이지 조회 시, 'next' 값만 전달하면 됩니다.

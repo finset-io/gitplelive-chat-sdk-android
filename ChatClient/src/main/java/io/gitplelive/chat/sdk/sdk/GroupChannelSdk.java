@@ -130,7 +130,7 @@ public class GroupChannelSdk {
                         boolean showUnread,
                         boolean showLastMessage,
                         String name,
-                        String include_members,
+                        String includeMembers,
                         OnResponse listener) {
         String url = url_group_channels;
 
@@ -142,7 +142,7 @@ public class GroupChannelSdk {
         url += "&show_unread=" + showUnread;
         url += "&show_last_message=" + showLastMessage;
         if (name != null) url += "&name=" + name;
-        if (include_members != null) url += "&include_members=" + include_members;
+        if (includeMembers != null) url += "&include_members=" + includeMembers;
         if (next != null) url += "&next=" + next;
 
         new HttpRequest(context, url, headers, listener);
@@ -191,7 +191,7 @@ public class GroupChannelSdk {
                               boolean showUnread,
                               boolean showLastMessage,
                               String name,
-                              String include_members,
+                              String includeMembers,
                               OnResponse listener) {
         String url = url_group_channels + "joined/list";
 
@@ -203,7 +203,7 @@ public class GroupChannelSdk {
         url += "&show_unread=" + showUnread;
         url += "&show_last_message=" + showLastMessage;
         if (name != null) url += "&name=" + name;
-        if (include_members != null) url += "&include_members=" + include_members;
+        if (includeMembers != null) url += "&include_members=" + includeMembers;
         if (next != null) url += "&next=" + next;
 
         new HttpRequest(context, url, headers, listener);

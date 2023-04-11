@@ -62,7 +62,7 @@ public class GroupChannelApi {
                                 boolean showUnread,
                                 boolean showLastMessage,
                                 String name,
-                                String include_members,
+                                String includeMembers,
                                 String next,
                                 OnCallback<ChannelPage> listener) {
         if (GitpleLiveChat.getInstance().isNotConnected()) return;
@@ -76,7 +76,7 @@ public class GroupChannelApi {
                                                             showUnread,
                                                             showLastMessage,
                                                             name,
-                                                            include_members,
+                                                            includeMembers,
                                                             (response, error) -> {
             if (listener == null) return;
 
@@ -107,22 +107,22 @@ public class GroupChannelApi {
                                         boolean showUnread,
                                         boolean showLastMessage,
                                         String name,
-                                        String include_members,
+                                        String includeMembers,
                                         String next,
                                         OnCallback<ChannelPage> listener) {
         if (GitpleLiveChat.getInstance().isNotConnected()) return;
 
         GitpleLiveChat.getInstance().groupChannelSdk.findAllJoined( next,
-                                                                limit,
-                                                                showMembers,
-                                                                showManagers,
-                                                                showReadReceipt,
-                                                                showDeliveryReceipt,
-                                                                showUnread,
-                                                                showLastMessage,
-                                                                name,
-                                                                include_members,
-                                                                (response, error) -> {
+                                                                    limit,
+                                                                    showMembers,
+                                                                    showManagers,
+                                                                    showReadReceipt,
+                                                                    showDeliveryReceipt,
+                                                                    showUnread,
+                                                                    showLastMessage,
+                                                                    name,
+                                                                    includeMembers,
+                                                                    (response, error) -> {
             if (listener == null) return;
 
             if (error != null) {
